@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 
 namespace TrucksRegister.Models
@@ -16,5 +17,7 @@ namespace TrucksRegister.Models
 
         [Required]
         public int ModelYear { get; set; }
+
+        public List<Trucks> Truck { get; set; }
     }
 }
