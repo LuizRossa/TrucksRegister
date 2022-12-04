@@ -4,26 +4,25 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h4 class="pb-5" style="text-align: center">Detalhes</h4>
 
 <div>
-    <h4>Trucks</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Model)
+            Modelo
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Model)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ManufacturingYear)
+            Ano / Fabricação
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ManufacturingYear)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModelYear)
+            Ano / Modelo
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ModelYear)
@@ -31,6 +30,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Voltar</a>
 </div>

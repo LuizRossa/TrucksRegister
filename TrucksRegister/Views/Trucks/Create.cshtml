@@ -4,39 +4,39 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h4 class="pb-5" style="text-align: center">Cadastrar novo caminhão</h4>
 
-<h4>Trucks</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Model" class="control-label"></label>
-                @*<select asp-for="Model" class="form-control" />*@
+                <label asp-for="Model" class="control-label">Modelo</label>
+                <br />
                 @Html.DropDownList("Model", String.Empty)
                 <span asp-validation-for="Model" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ManufacturingYear" class="control-label"></label>
+                <label asp-for="ManufacturingYear" class="control-label">Ano / Fabricação</label>
                 <input asp-for="ManufacturingYear" type="number" class="form-control" value="@DateTime.Now.Year" readonly="readonly" />
                 <span asp-validation-for="ManufacturingYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ModelYear" class="control-label"></label>
+                <label asp-for="ModelYear" class="control-label">Ano / Modelo</label>
+                <br />
                 @Html.DropDownList("ModelYear", String.Empty)
                 <span asp-validation-for="ModelYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar</a>
 </div>
 
 @section Scripts {

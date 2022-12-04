@@ -19,16 +19,11 @@ namespace Trucks_TestProject.Controllers
 {
     public class TrucksControllerTeste
     {
-        //private readonly HomeService _homeService;
-        //private readonly Mock<IHomeRepository> _homeRepositoryMock = new Mock<IHomeRepository>();
-        //private readonly Mock<IHomeService> _homeServiceMock = new Mock<IHomeService>();
-
         private readonly TrucksController _controller;
         private readonly Mock<ITrucksService> _trucksServiceMock = new Mock<ITrucksService>();
 
         public TrucksControllerTeste() 
         {
-            //_homeService = new HomeService(_homeRepositoryMock.Object);
             _controller = new TrucksController(_trucksServiceMock.Object);
         }
 
@@ -41,17 +36,6 @@ namespace Trucks_TestProject.Controllers
             // Assert
             Assert.NotNull(result);
         }
-
-
-        //[Fact]
-        //public void Test_Index()
-        //{
-
-        //    // Act
-        //    var result = _homeService.GetAll();
-        //    // Assert
-        //    Assert.Equal("teste", result[0]);
-        //}
 
         [Fact]
         public async void Test_Details_Id_null()
