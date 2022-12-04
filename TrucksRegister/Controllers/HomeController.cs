@@ -13,17 +13,14 @@ namespace TrucksRegister.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IHomeService _homeService;
 
-        public HomeController(ILogger<HomeController> logger, IHomeService homeService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _homeService = homeService;
         }
 
         public IActionResult Index()
         {
-            var aux = _homeService.GetAll();
             return View();
         }
 

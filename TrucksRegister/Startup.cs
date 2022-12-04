@@ -29,8 +29,6 @@ namespace TrucksRegister
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TrucksContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TrucksDatabase")));
-            services.AddScoped<IHomeService, HomeService>();
-            services.AddScoped<IHomeRepository, HomeRepository>();
             services.AddScoped<ITrucksService, TrucksService>();
             services.AddScoped<ITrucksRepository, TrucksRepository>();
             services.AddControllersWithViews();
