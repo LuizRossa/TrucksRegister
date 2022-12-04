@@ -32,7 +32,7 @@ namespace TrucksRegister
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IHomeRepository, HomeRepository>();
             services.AddScoped<ITrucksService, TrucksService>();
-            services.AddScoped<ITrucksRepository, TrucksRepository>();  
+            services.AddScoped<ITrucksRepository, TrucksRepository>();
             services.AddControllersWithViews();
         }
 
@@ -62,6 +62,9 @@ namespace TrucksRegister
                     name: "default",
                     pattern: "{controller=Trucks}/{action=Index}/{id?}");
             });
+
+            TrucksContext _dbContext = new TrucksContext();
+            _dbContext.Database.EnsureCreated();
         }
     }
 }
