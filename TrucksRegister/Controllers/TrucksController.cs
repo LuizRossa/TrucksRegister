@@ -6,23 +6,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using TrucksRegister.Interfaces;
 using TrucksRegister.Models;
 
 namespace TrucksRegister.Controllers
 {
     public class TrucksController : Controller
     {
-        private readonly TrucksContext _context;
+        //private readonly TrucksContext _context;
+        private readonly ITrucksService _truckService;
 
-        public TrucksController(TrucksContext context)
+        public TrucksController(ITrucksService truckService)
         {
-            _context = context;
+            //_context = context;
+            _truckService = truckService;   
         }
 
+
         // GET: Trucks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? erro)
         {
-            return View(await _context.Trucks.ToListAsync());
+            if (erro == null)
+            {
+                ViewBag.erro = "";
+            }
+            else
+            {
+                ViewBag.erro = erro;
+            }
+
+            //return View(await _context.Trucks.ToListAsync());
+            return View(await _truckService.GetAllTrucks());
         }
 
         // GET: Trucks/Details/5
@@ -30,14 +44,14 @@ namespace TrucksRegister.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                throw new Exception("id nulo");
             }
 
-            var trucks = await _context.Trucks
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var trucks = await _truckService.GetTrucksFirstOrDefault(id);
+
             if (trucks == null)
             {
-                return NotFound();
+                throw new Exception("inexistente");
             }
 
             return View(trucks);
@@ -90,8 +104,8 @@ namespace TrucksRegister.Controllers
             {
                 try
                 {
-                    _context.Add(trucks);
-                    await _context.SaveChangesAsync();
+                    _truckService.NewTruck(trucks);
+                    await _truckService.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex) 
@@ -112,7 +126,7 @@ namespace TrucksRegister.Controllers
 
             try
             {
-                var trucks = await _context.Trucks.FindAsync(id);
+                var trucks = await _truckService.FindById(id);
                 if (trucks == null)
                 {
                     return RedirectToAction("Index", new { erro = "Caminhão não encontrado" });
@@ -141,35 +155,35 @@ namespace TrucksRegister.Controllers
         {
             if (trucks.Model != "FH" && trucks.Model != "FM")
             {
-                return RedirectToAction("Create", new { erro = "Modelo Inválido" });
+                return RedirectToAction("Edit", new { erro = "Modelo Inválido" });
             }
 
             if (trucks.ModelYear == 0)
             {
-                return RedirectToAction("Create", new { erro = "Ano Inválido" });
+                return RedirectToAction("Edit", new { erro = "Ano Inválido" });
             }
 
             if (id != trucks.Id)
             {
-                return NotFound();
+                return RedirectToAction("Edit", new { erro = "OCORREU UM ERRO, TENTE NOVAMENTE" });
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(trucks);
-                    await _context.SaveChangesAsync();
+                    _truckService.UpdateTruck(trucks);
+                    await _truckService.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!TrucksExists(trucks.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction("Edit", new { erro = "OCORREU UM ERRO, TENTE NOVAMENTE" });
                     }
                     else
                     {
-                        throw;
+                        return RedirectToAction("Edit", new { erro = "OCORREU UM ERRO, TENTE NOVAMENTE" });
                     }
                 }
                 return RedirectToAction(nameof(Index));
@@ -182,14 +196,13 @@ namespace TrucksRegister.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                throw new Exception("Objeto não encontrado");
             }
 
-            var trucks = await _context.Trucks
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var trucks = await _truckService.GetTrucksFirstOrDefault(id);
             if (trucks == null)
             {
-                return NotFound();
+                throw new Exception("Objeto não encontrado");
             }
 
             return View(trucks);
@@ -200,15 +213,15 @@ namespace TrucksRegister.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var trucks = await _context.Trucks.FindAsync(id);
-            _context.Trucks.Remove(trucks);
-            await _context.SaveChangesAsync();
+            var trucks = await _truckService.FindById(id);
+            _truckService.RemoveTruck(trucks);
+            await _truckService.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TrucksExists(int id)
+        public bool TrucksExists(int id)
         {
-            return _context.Trucks.Any(e => e.Id == id);
+            return _truckService.ExistTruck(id);
         }
     }
 }
