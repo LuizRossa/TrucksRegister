@@ -10,7 +10,7 @@ using TrucksRegister.Models;
 namespace TrucksRegister.Migrations
 {
     [DbContext(typeof(TrucksContext))]
-    [Migration("20221203180228_trucksDb")]
+    [Migration("20221204192554_trucksDb")]
     partial class trucksDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
